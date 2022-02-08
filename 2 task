@@ -1,0 +1,166 @@
+#pragma once
+
+namespace Project1 {
+
+	using namespace System;
+	using namespace System::ComponentModel;
+	using namespace System::Collections;
+	using namespace System::Windows::Forms;
+	using namespace System::Data;
+	using namespace System::Drawing;
+
+	float lines[] = {
+		//legs
+		4.f, 1.f, 8.f, 1.f,
+		8.f, 1.f, 9.f, 2.f,
+		9.f, 2.f, 11.f, 2.f,
+		11.f, 2.f, 12.f, 1.f,
+		12.f, 1.f, 16.f, 1.f,
+		16.f, 1.f, 17.f, 3.f,
+		17.f, 3.f, 17.f, 7.f,
+		17.f, 7.f, 15.f, 9.f,
+		5.f, 9.f, 3.f, 7.f, 
+		3.f, 7.f, 3.f, 3.f, 
+		3.f, 3.f, 4.f, 1.f,
+
+		// things in legs
+		5.f, 3.f, 6.f, 4.f, //left
+		6.f, 4.f, 6.f, 6.f,
+		6.f, 6.f, 5.f, 7.f,
+		5.f, 7.f, 4.f, 6.f,
+		4.f, 6.f, 4.f, 4.f, 
+		4.f, 4.f, 5.f, 3.f,
+
+		15.f, 3.f, 16.f, 4.f, // right
+		16.f, 4.f, 16.f, 6.f,
+		16.f, 6.f, 15.f, 7.f,
+		15.f, 7.f, 14.f, 6.f,
+		14.f, 6.f, 14.f, 4.f,
+		14.f, 4.f, 15.f, 3.f,
+
+		// centre
+		11.f, 2.f, 12.f, 2.f, 
+		12.f, 2.f, 13.f, 3.f, // difference
+		13.f, 2.f, 12.f, 6.f, 
+		12.f, 6.f, 13.f, 8.f, 
+		13.f, 8.f, 16.f, 8.f,
+		14.f, 8.f, 14.f, 9.f,
+
+		9.f, 2.f, 8.f, 2.f, 
+		8.f, 2.f, 7.f, 3.f, // difference
+		7.f, 2.f, 8.f, 6.f, 
+		8.f, 6.f, 7.f, 8.f,
+		7.f, 8.f, 4.f, 8.f,
+		6.f, 8.f, 6.f, 9.f,
+
+		//cube in centre 
+		10.f, 2.f, 11.f, 3.f, 
+		11.f, 3.f, 10.f, 4.f, 
+		10.f, 4.f, 9.f, 3.f, 
+		9.f, 3.f, 10.f, 2.f,
+
+		//cube in centre on left side
+		8.f, 6.f, 9.f, 5.f, 
+		9.f, 5.f, 8.f, 4.f, 
+		8.f, 4.f, 7.f, 5.f, // difference
+
+		//cube in centre on right side
+		12.f, 6.f, 11.f, 7.f,
+		11.f, 7.f, 12.f, 8.f,
+		12.f, 8.f, 13.f, 7.f, // difference
+
+		//cube on top
+		9.f, 7.f, 10.f, 8.f, 
+		10.f, 8.f, 9.f, 9.f, 
+		9.f, 9.f, 8.f, 8.f, 
+		8.f, 8.f, 9.f, 7.f
+
+	};
+
+	unsigned int arrayLength = sizeof(lines) / sizeof(float);
+	float Vx = 8.5f; // размер рисунка по горизонтали
+	float Vy = 8.5f; // размер рисунка по вертикали
+	float aspectFig = Vx / Vy; // соотношение сторон рисунка
+
+
+	/// <summary>
+	/// Сводка для MyForm
+	/// </summary>
+	public ref class MyForm : public System::Windows::Forms::Form
+	{
+	public:
+		MyForm(void)
+		{
+			InitializeComponent();
+			//
+			//TODO: добавьте код конструктора
+			//
+		}
+
+	protected:
+		/// <summary>
+		/// Освободить все используемые ресурсы.
+		/// </summary>
+		~MyForm()
+		{
+			if (components)
+			{
+				delete components;
+			}
+		}
+
+	private:
+		/// <summary>
+		/// Обязательная переменная конструктора.
+		/// </summary>
+		System::ComponentModel::Container ^components;
+
+#pragma region Windows Form Designer generated code
+		/// <summary>
+		/// Требуемый метод для поддержки конструктора — не изменяйте 
+		/// содержимое этого метода с помощью редактора кода.
+		/// </summary>
+		void InitializeComponent(void)
+		{
+			this->SuspendLayout();
+			// 
+			// MyForm
+			// 
+			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
+			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+			this->ClientSize = System::Drawing::Size(284, 261);
+			this->DoubleBuffered = true;
+			this->Name = L"MyForm";
+			this->Text = L"MyForm";
+			this->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MyForm::MyForm_Paint);
+			this->Resize += gcnew System::EventHandler(this, &MyForm::MyForm_Resize);
+			this->ResumeLayout(false);
+
+		}
+#pragma endregion
+	private: System::Void MyForm_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
+		Graphics^ g = e->Graphics;
+		g->Clear(Color::LightCyan);
+
+		Pen^ blackPen = gcnew Pen(Color::Blue, 2);
+
+		float Wx = ClientRectangle.Width; // размер окна по горизонтали
+		float Wy = ClientRectangle.Height; // размер окна по вертикали
+
+		float aspectForm = Wx / Wy; // соотношение сторон окна рисования
+
+		float S = aspectFig < aspectForm ? Wy / Vy : Wx / Vx; // коэффициент увеличения
+
+		float Ty = S * Vy; // смещение в положительную сторону по оси Oy после смены знака
+		for (int i = 0; i < arrayLength; i += 4) {
+			g->DrawLine(blackPen, S * lines[i], Ty - S * lines[i + 1]
+				, S * lines[i + 2], Ty - S * lines[i + 3]);
+		}
+
+		
+	}
+	private: System::Void MyForm_Resize(System::Object^ sender, System::EventArgs^ e) {
+		Refresh();
+	}
+	};
+}
